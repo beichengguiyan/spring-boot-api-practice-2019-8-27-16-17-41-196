@@ -21,59 +21,58 @@ import com.tw.apistackbase.model.Employee;
 @RestController
 @RequestMapping("/employees")
 public class EmployeeResource {
+	
 	private static List<Employee> employees = new ArrayList<Employee>() {
 		{
-			add(new Employee(0, "Xiaoming", 20, "Male"));
-			add(new Employee(1, "Xiaohong", 19, "Female"));
-			add(new Employee(2, "Xiaozhi", 15, "Male"));
-			add(new Employee(3, "Xiaogang", 16, "Male"));
-			add(new Employee(4, "Xiaoxia", 15, "Female"));
+			add(new Employee(4, "alibaba1", 20, "male",6000));
+			add(new Employee(11, "tengxun2", 19, "female",7000));
+			add(new Employee(6, "alibaba3", 19, "male",8000));
 		}
 	};
 
-	@GetMapping()
-	public ResponseEntity<List<Employee>> getAll() {
-		return ResponseEntity.ok(employees);
-	}
-
-	@GetMapping(path = "/{employeeId}")
-	public ResponseEntity<Employee> getEmployee(@PathVariable int employeeId) {
-		return ResponseEntity.ok(employees.get(employeeId));
-	}
-
-	@GetMapping(path = "/name")
-	public ResponseEntity<List<Employee>> getEmployeeByName(
-			@RequestParam(name = "name", required = false) String name) {
-		List<Employee> employeesResult = new ArrayList<Employee>();
-		for (Employee employee : employees) {
-			if (employee.getName().contains(name)) {
-				employeesResult.add(employee);
-			}
-		}
-		return ResponseEntity.ok(employeesResult);
-	}
-
-	@PostMapping(consumes = "application/json")
-	public ResponseEntity<List<Employee>> addEmployee(@RequestBody Employee employee) {
-		employees.add(employee);
-		return ResponseEntity.status(HttpStatus.CREATED).build();
-	}
-
-	@PutMapping(consumes = "application/json")
-	public ResponseEntity<List<Employee>> updateEmployee(@RequestBody Employee employee) {
-		for (int i = 0; i < employees.size(); i++) {
-			if (employees.get(i).getId() == employee.getId()) {
-				employees.set(i, employee);
-			}
-		}
-		return ResponseEntity.status(HttpStatus.CREATED).build();
-	}
-
-	@DeleteMapping(path = "/{employeeId}")
-	public ResponseEntity<List<Employee>> deldeteEmployee(@PathVariable int employeeId) {
-				employees.remove(employeeId);
-		return ResponseEntity.status(HttpStatus.CREATED).build();
-	}
+//	@GetMapping()
+//	public ResponseEntity<List<Employee>> getAll() {
+//		return ResponseEntity.ok(employees);
+//	}
+//
+//	@GetMapping(path = "/{employeeId}")
+//	public ResponseEntity<Employee> getEmployee(@PathVariable int employeeId) {
+//		return ResponseEntity.ok(employees.get(employeeId));
+//	}
+//
+//	@GetMapping(path = "/name")
+//	public ResponseEntity<List<Employee>> getEmployeeByName(
+//			@RequestParam(name = "name", required = false) String name) {
+//		List<Employee> employeesResult = new ArrayList<Employee>();
+//		for (Employee employee : employees) {
+//			if (employee.getName().contains(name)) {
+//				employeesResult.add(employee);
+//			}
+//		}
+//		return ResponseEntity.ok(employeesResult);
+//	}
+//
+//	@PostMapping(consumes = "application/json")
+//	public ResponseEntity<List<Employee>> addEmployee(@RequestBody Employee employee) {
+//		employees.add(employee);
+//		return ResponseEntity.status(HttpStatus.CREATED).build();
+//	}
+//
+//	@PutMapping(consumes = "application/json")
+//	public ResponseEntity<List<Employee>> updateEmployee(@RequestBody Employee employee) {
+//		for (int i = 0; i < employees.size(); i++) {
+//			if (employees.get(i).getId() == employee.getId()) {
+//				employees.set(i, employee);
+//			}
+//		}
+//		return ResponseEntity.status(HttpStatus.CREATED).build();
+//	}
+//
+//	@DeleteMapping(path = "/{employeeId}")
+//	public ResponseEntity<List<Employee>> deldeteEmployee(@PathVariable int employeeId) {
+//				employees.remove(employeeId);
+//		return ResponseEntity.status(HttpStatus.CREATED).build();
+//	}
 	
 }
 

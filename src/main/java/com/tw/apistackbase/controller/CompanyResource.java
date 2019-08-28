@@ -15,21 +15,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tw.apistackbase.model.Company;
 import com.tw.apistackbase.model.Employee;
+
 
 @RestController
 @RequestMapping("/employees")
 public class CompanyResource {
 	private static List<Employee> employees = new ArrayList<Employee>() {
 		{
-			add(new Employee(0, "Xiaoming", 20, "Male"));
-			add(new Employee(1, "Xiaohong", 19, "Female"));
-			add(new Employee(2, "Xiaozhi", 15, "Male"));
-			add(new Employee(3, "Xiaogang", 16, "Male"));
-			add(new Employee(4, "Xiaoxia", 15, "Female"));
+			add(new Employee(4, "alibaba1", 20, "male",6000));
+			add(new Employee(11, "tengxun2", 19, "female",7000));
+			add(new Employee(6, "alibaba3", 19, "male",8000));
+		}
+	};
+	private static List<Company> companies = new ArrayList<Company>() {
+		{
+			add(new Company(0, "alibaba", 200, employees));
 		}
 	};
 
+	
 	@GetMapping()
 	public ResponseEntity<List<Employee>> getAll() {
 		return ResponseEntity.ok(employees);
