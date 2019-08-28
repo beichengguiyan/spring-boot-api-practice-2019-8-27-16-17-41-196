@@ -18,66 +18,78 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tw.apistackbase.model.Company;
 import com.tw.apistackbase.model.Employee;
 
-
 @RestController
 @RequestMapping("/companies")
 public class CompanyResource {
 	private static List<Employee> employees = new ArrayList<Employee>() {
 		{
-			add(new Employee(4, "alibaba1", 20, "male",6000));
-			add(new Employee(11, "tengxun2", 19, "female",7000));
-			add(new Employee(6, "alibaba3", 19, "male",8000));
+			add(new Employee(4, "alibaba1", 20, "male", 6000));
+			add(new Employee(11, "tengxun2", 19, "female", 7000));
+			add(new Employee(6, "alibaba3", 19, "male", 8000));
+		}
+	};
+	private static List<Employee> employeesTwo = new ArrayList<Employee>() {
+		{
+			add(new Employee(20, "alibaba11", 20, "male", 6000));
+			add(new Employee(21, "tengxun12", 19, "female", 7000));
+			add(new Employee(22, "alibaba13", 19, "male", 8000));
 		}
 	};
 	private static List<Company> companies = new ArrayList<Company>() {
 		{
 			add(new Company(0, "alibaba", 200, employees));
+			add(new Company(1, "tengxun", 300, employeesTwo));
+			add(new Company());
+			add(new Company());
+			add(new Company());
 		}
 	};
 
-	
-	@GetMapping()
+	@GetMapping("/")
 	public ResponseEntity<List<Company>> getAll() {
 		return ResponseEntity.ok(companies);
 	}
 
-//	@GetMapping(path = "/{employeeId}")
-//	public ResponseEntity<Employee> getEmployee(@PathVariable int employeeId) {
-//		return ResponseEntity.ok(employees.get(employeeId));
-//	}
-//
-//	@GetMapping(path = "/name")
-//	public ResponseEntity<List<Employee>> getEmployeeByName(
-//			@RequestParam(name = "name", required = false) String name) {
-//		List<Employee> employeesResult = new ArrayList<Employee>();
-//		for (Employee employee : employees) {
-//			if (employee.getName().contains(name)) {
-//				employeesResult.add(employee);
-//			}
-//		}
-//		return ResponseEntity.ok(employeesResult);
-//	}
-//
-//	@PostMapping(consumes = "application/json")
-//	public ResponseEntity<List<Employee>> addEmployee(@RequestBody Employee employee) {
-//		employees.add(employee);
-//		return ResponseEntity.status(HttpStatus.CREATED).build();
-//	}
-//
-//	@PutMapping(consumes = "application/json")
-//	public ResponseEntity<List<Employee>> updateEmployee(@RequestBody Employee employee) {
-//		for (int i = 0; i < employees.size(); i++) {
-//			if (employees.get(i).getId() == employee.getId()) {
-//				employees.set(i, employee);
-//			}
-//		}
-//		return ResponseEntity.status(HttpStatus.CREATED).build();
-//	}
-//
-//	@DeleteMapping(path = "/{employeeId}")
-//	public ResponseEntity<List<Employee>> deldeteEmployee(@PathVariable int employeeId) {
-//				employees.remove(employeeId);
-//		return ResponseEntity.status(HttpStatus.CREATED).build();
-//	}
-	
+	@GetMapping(path = "/{companyId}")
+	public ResponseEntity<Employee> getCompany(@PathVariable int companyId) {
+		return ResponseEntity.ok(employees.get(companyId));
+	}
+
+	@GetMapping(path = "/{companyId}/employees")
+	public ResponseEntity<List<Employee>> getEmployeeById(@PathVariable int companyId) {
+		List<Employee> employees = companies.get(companyId).getEmployees();
+		return ResponseEntity.ok(employees);
+	}
+
+	@GetMapping()
+	public ResponseEntity<List<Company>> getCompanyByPage(@RequestParam(name = "page", required = false) int page,
+			@RequestParam(name = "pageSize", required = false) int pageSize) {
+
+		List<Company> companiesResult = new ArrayList<Company>();
+		if (page == 1) {
+			for (int i = 0; i < pageSize; i++) {
+				companiesResult.add(companies.get(i));
+			}
+		}
+		return ResponseEntity.ok(companiesResult);
+	}
+
+	@PostMapping(consumes = "application/json")
+	public ResponseEntity<List<Company>> addCompany(@RequestBody Company company) {
+		companies.add(company);
+		return ResponseEntity.status(HttpStatus.CREATED).build();
+	}
+
+	@PutMapping(path = "/{companyId}")
+	public ResponseEntity<List<Company>> updateEmployee(@PathVariable int companyId, @RequestBody Company company) {
+		companies.set(companyId, company);
+		return ResponseEntity.status(HttpStatus.CREATED).build();
+	}
+
+	@DeleteMapping(path = "/{companyId}")
+	public ResponseEntity<List<Company>> deldeteEmployee(@PathVariable int companyId) {
+		companies.remove(companyId);
+		return ResponseEntity.ok(companies);
+	}
+
 }
